@@ -9,7 +9,11 @@ const Context = createContext()
 export const GlobalState = (props)=>{
     const [token, setToken] = useState('')
     const [places, setPlaces] = useState([])
-console.log(places)
+    const [placeId, setPlaceId] = useState('')
+    const [clientId, setClientId] = useState('')
+    const [cardapio, setCardapio] = useState([])
+    const [pedido, setPedido] = useState({})
+
 
 
     const getAllUsers = ()=>{
@@ -21,10 +25,23 @@ console.log(places)
     }
 
 
+    const insertClient = ()=>{
+        const body = {
+            user: token
+        }
+        axios.post(`${url}/user/client/${placeId}`, body).then(res=>{
+            setClientId(res.data)
+            alert('Parabéns agora você é um cliente')
+        }).catch(e=>{
+            alert(e.response.data)
+        })
+    }
 
-    const states = { token, places }
-    const setters = { setToken }
-    const requests = { getAllUsers }
+
+    
+    const states = { token, places, cardapio, pedido, placeId, clientId }
+    const setters = { setToken, setCardapio, setPedido, setPlaceId }
+    const requests = { getAllUsers, insertClient }
 
     return(
         <Context.Provider value={{ states, setters, requests }}>
