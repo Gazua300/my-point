@@ -1,6 +1,6 @@
 import { useContext, useState } from "react"
 import Context from "../../global/Context"
-import { View, Text, TouchableOpacity, StyleSheet, TextInput } from 'react-native'
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, ImageBackground } from 'react-native'
 import axios from "axios"
 import { url } from "../../constants/url"
 
@@ -22,46 +22,60 @@ const Cardapio = (props)=>{
 
 
     return(
-        <View>
-            {cardapio && cardapio.map(item=>{
-                return(
-                    <View key={item.id}
-                        style={styles.card}>
-                        <Text style={styles.txtStyle}>{item.nome}</Text>
-                            <Text style={{fontSize:15}}>{item.ingredientes}</Text>                        
-                        <View style={styles.btnContainer}>
-                            <TouchableOpacity style={styles.button}
-                                onPress={()=> fazerPedido(item.id)}>
-                                <Text style={{color:'whitesmoke'}}>Pedir</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                )
-            })}
-        </View>
+        <ImageBackground
+            style={{flex:1}}
+            source={require('../../img/mypoint-wallpaper.jpg')}>
+            <View style={styles.container}>
+                <ScrollView>
+                    {cardapio.length > 0 ? cardapio.map(item=>{
+                        return(
+                            <View key={item.id}
+                                style={styles.card}>
+                                <Text style={styles.txtStyle}>{item.nome}</Text>
+                                <Text style={{fontSize:15, color:'whitesmoke'}}>{item.ingredientes}</Text>
+                                <TouchableOpacity style={styles.button}
+                                    onPress={()=> fazerPedido(item.id)}>
+                                    <Text style={{color:'whitesmoke'}}>Pedir</Text>
+                                </TouchableOpacity>
+                            </View>
+                        )
+                    }) : <Text style={styles.txtTemp}>Você ainda não inseriou nenhum produto no cardápio</Text>}
+                </ScrollView>
+            </View>
+        </ImageBackground>
     )
 }
 
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        paddingTop: 50
+    },
     card: {
         display: 'flex',
         alignItems: 'center',
-        borderWidth: 1,
+        borderWidth: 2,
+        borderColor: '#ae8625',
         margin: 15,
         padding: 10,
         borderRadius: 10
     },
     txtStyle: {
         fontSize: 23,
-        lineHeight: 40
+        lineHeight: 40,
+        color: 'whitesmoke'
     },
-    btnContainer: {
-        display: 'flex',
-        flexDirection: 'row',
+    txtTemp: {
+        marginTop: 100,
+        marginHorizontal: 50,
+        textAlign: 'center',
+        fontSize: 20,
+        color: 'whitesmoke'
     },
     button: {
-        backgroundColor: 'blue',
+        backgroundColor: '#ae8625',
         width: 150,
         padding: 5,
         borderRadius: 10,

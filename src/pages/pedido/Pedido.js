@@ -7,7 +7,9 @@ import {
     Text,
     StyleSheet,
     TouchableOpacity,
-    TextInput
+    TextInput,
+    ScrollView,
+    ImageBackground
 } from 'react-native'
 
 
@@ -34,30 +36,35 @@ const Pedido = (props)=>{
 
 
     return(
-        <View style={styles.container}>
-            <Text style={styles.txtStyle}>
-                <Text style={{fontWeight:'bold'}}>Produto:</Text> {pedido.nome}{'\n'}
-                <Text style={{fontWeight:'bold'}}>Marcas:</Text> {pedido.ingredientes}
-            </Text>
-            <View style={styles.formContainer}>
-                <TextInput style={styles.input}
-                    multiline={true}
-                    numberOfLines={3}
-                    onChangeText={setProduto}
-                    value={produto} 
-                    placeholder="Pode pedir outros produtos também."/>                
+        <ImageBackground
+            style={{flex:1}}
+            source={require('../../img/mypoint-wallpaper.jpg')}>
+            <View style={styles.container}>
+                <Text style={styles.txtStyle}>
+                    <Text style={{fontWeight:'bold', lineHeight:50}}>Produto:</Text> {pedido.nome}{'\n'}
+                    <Text style={{fontSize:15}}>{pedido.ingredientes}</Text>
+                </Text>
+                <View style={styles.formContainer}>
+                    <TextInput style={styles.input}
+                        multiline={true}
+                        numberOfLines={3}
+                        onChangeText={setProduto}
+                        value={produto} 
+                        placeholder="Pode pedir outros produtos por aqui também."
+                        placeholderTextColor='whitesmoke'/>                
+                </View>
+                <View style={styles.btnContainer}>
+                    <TouchableOpacity style={styles.button}
+                        onPress={finalizarCompra}>
+                        <Text style={{color:'whitesmoke'}}>Realizar compra</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.button}
+                        onPress={()=> setProduto('')}>
+                        <Text style={{color:'whitesmoke'}}>Limpar</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
-            <View style={styles.btnContainer}>
-                <TouchableOpacity style={styles.button}
-                    onPress={finalizarCompra}>
-                    <Text style={{color:'whitesmoke'}}>Realizar compra</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.button}
-                    onPress={()=> setProduto('')}>
-                    <Text style={{color:'whitesmoke'}}>Limpar</Text>
-                </TouchableOpacity>
-            </View>
-        </View>
+        </ImageBackground>
     )
 }
 
@@ -65,11 +72,13 @@ const Pedido = (props)=>{
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        paddingTop:50
     },
     txtStyle: {
         margin: 20,
-        lineHeight: 30,
-        fontSize: 20,                
+        fontSize: 20,
+        color: 'whitesmoke'                
     },
     formContainer: {
         display: 'flex',
@@ -79,12 +88,14 @@ const styles = StyleSheet.create({
         marginHorizontal: 20
     },
     input: {
-        width: 250,
-        height: 70,
-        backgroundColor: 'lightgray',
+        width: 370,
+        height: 100,
+        borderWidth: 2,
+        borderColor: '#ae8625',
         borderRadius: 10,
-        padding: 10,
-        fontSize: 20
+        padding: 15,
+        fontSize: 20,
+        color: 'whitesmoke'
     },
     btnContainer: {
         display: 'flex',
@@ -93,7 +104,7 @@ const styles = StyleSheet.create({
         margin: 20
     },
     button: {
-        backgroundColor: 'blue',
+        backgroundColor: '#ae8625',
         padding: 10,
         borderRadius: 10
     }

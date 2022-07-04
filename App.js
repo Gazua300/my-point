@@ -1,7 +1,7 @@
 import { NavigationContainer } from "@react-navigation/native"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { GlobalState } from "./src/global/Context"
-import { View, Text, TouchableOpacity } from 'react-native'
+import { View, StatusBar, TouchableOpacity } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
 import Logout from 'react-native-vector-icons/AntDesign'
 import Login from "./src/pages/login/Login"
@@ -20,10 +20,15 @@ const Stack = createNativeStackNavigator()
 export default function App() {
   return (
     <NavigationContainer>
+      <StatusBar backgroundColor='rgba(0, 0, 0, 0.9)'/>
       <GlobalState>
         <Stack.Navigator
           screenOptions={{
-            headerTitleAlign: 'center'
+            headerTitleAlign: 'center',
+            headerStyle:{
+              backgroundColor: '#ae8625',                                  
+            },
+            headerTintColor: 'whitesmoke',
           }}>
 
           <Stack.Screen
@@ -50,7 +55,7 @@ export default function App() {
               ),
               headerRight: ()=>(
                 <TouchableOpacity onPress={()=> navigation.navigate('Perfil')}>
-                  <Icon name="person" size={30}/>
+                  <Icon name="person" size={30} color='whitesmoke'/>
                 </TouchableOpacity>
               )
             })}/>
@@ -61,7 +66,7 @@ export default function App() {
             options={({navigation})=>({
               headerRight: ()=>(
                 <TouchableOpacity onPress={()=> navigation.navigate('Perfil')}>
-                  <Icon name="person" size={30}/>
+                  <Icon name="person" size={30} color='whitesmoke'/>
                 </TouchableOpacity>
               )
             })}/>
@@ -72,7 +77,7 @@ export default function App() {
             options={({navigation})=>({
               headerRight: ()=>(
                 <TouchableOpacity onPress={()=> navigation.navigate('Perfil')}>
-                  <Icon name="person" size={30}/>
+                  <Icon name="person" size={30} color='whitesmoke'/>
                 </TouchableOpacity>
               )
             })}/>
@@ -81,9 +86,10 @@ export default function App() {
             name="Perfil"
             component={Perfil}
             options={({navigation})=>({
+              title: 'Cliente',
               headerRight: ()=>(
                 <TouchableOpacity onPress={()=> navigation.navigate('Login')}>
-                  <Logout name="logout" size={25}/>
+                  <Logout name="logout" size={25} color='whitesmoke'/>
                 </TouchableOpacity>
               )
             })} />
