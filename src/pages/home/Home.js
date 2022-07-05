@@ -1,8 +1,10 @@
-import axios from 'axios'
 import { useContext, useEffect } from 'react'
+import Context from '../../global/Context'
+import axios from 'axios'
 import { View, Text, StyleSheet, TouchableOpacity, ImageBackground, ScrollView } from 'react-native'
 import { url } from '../../constants/url'
-import Context from '../../global/Context'
+
+
 
 
 
@@ -35,7 +37,7 @@ const Home = (props)=>{
             source={require('../../img/mypoint-wallpaper.jpg')}>
             <View style={styles.container}>
                 <ScrollView>
-                    {places && places.map(place=>{
+                    {places.length > 0 ? places.map(place=>{
                         return(
                             <View key={place.id}
                                 style={styles.card}>
@@ -49,7 +51,7 @@ const Home = (props)=>{
                                 </TouchableOpacity>
                             </View>
                         )
-                    })}
+                    }) : <View style={{alignItems:'center'}}><View style={styles.loading}/></View>}
                 </ScrollView>
             </View>
         </ImageBackground>
@@ -85,6 +87,15 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         marginTop: 15,
         alignItems: 'center'
+    },
+    loading: {
+        borderWidth: 3,
+        borderTopWidth: 0,
+        borderRightWidth: 0,        
+        borderColor: '#ae8625',
+        width: 100,
+        height: 100,
+        borderRadius: 50,
     }
 })
 

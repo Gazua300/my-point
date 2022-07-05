@@ -11,21 +11,23 @@ import {
     ScrollView,
     ImageBackground
 } from 'react-native'
+import AsyncStorage from "@react-native-async-storage/async-storage"
 
 
 
 
 const Pedido = (props)=>{
     const [produto, setProduto] = useState('')
-    const { states, requests } = useContext(Context)
+    const { states } = useContext(Context)
     const pedido = states.pedido
 
 
     
-    const finalizarCompra = ()=>{
+    const finalizarCompra = async()=>{
+        const id = await AsyncStorage.getItem('token')
         const body = {
             pedido: produto,
-            user: states.token,
+            user: id,
         }
         axios.post(`${url}/request/${states.placeId}`, body).then(res=>{
             alert(res.data)
@@ -56,7 +58,7 @@ const Pedido = (props)=>{
                 <View style={styles.btnContainer}>
                     <TouchableOpacity style={styles.button}
                         onPress={finalizarCompra}>
-                        <Text style={{color:'whitesmoke'}}>Realizar compra</Text>
+                        <Text style={{color:'whitesmoke'}}>Realizar pedido</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button}
                         onPress={()=> setProduto('')}>

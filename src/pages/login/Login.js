@@ -1,8 +1,9 @@
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { url } from '../../constants/url'
 import Context from "../../global/Context"
 import axios from 'axios'
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ImageBackground } from "react-native"
+import AsyncStorage from "@react-native-async-storage/async-storage"
 
 
 
@@ -12,6 +13,19 @@ const Login = (props)=>{
     const [senha, setSenha] = useState('')
 
 
+    
+    useEffect(()=>{
+        
+        const persistir = async()=>{
+            const token = await AsyncStorage.getItem('token')
+            if(token !== null){
+                props.navigation.navigate('Home')
+            }
+        }
+        persistir()
+                
+    }, [])
+
 
     const login = ()=>{
         const body = {
@@ -19,7 +33,7 @@ const Login = (props)=>{
             senha
         }
         axios.post(`${url}/user/login`, body).then(res=>{
-            setters.setToken(res.data)
+            setters.getToken(res.data)
             props.navigation.navigate('Home')
         }).catch(e=>{
             alert(e.response.data)

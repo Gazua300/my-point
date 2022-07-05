@@ -3,7 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { GlobalState } from "./src/global/Context"
 import { View, StatusBar, TouchableOpacity } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
-import Logout from 'react-native-vector-icons/AntDesign'
+import HomeIcon from 'react-native-vector-icons/Entypo'
 import Login from "./src/pages/login/Login"
 import CreateUser from "./src/pages/createUser/CreateUser"
 import Home from "./src/pages/home/Home"
@@ -88,8 +88,8 @@ export default function App() {
             options={({navigation})=>({
               title: 'Cliente',
               headerRight: ()=>(
-                <TouchableOpacity onPress={()=> navigation.navigate('Login')}>
-                  <Logout name="logout" size={25} color='whitesmoke'/>
+                <TouchableOpacity onPress={()=> navigation.navigate('Home')}>
+                  <HomeIcon name="home" size={25} color='whitesmoke'/>
                 </TouchableOpacity>
               )
             })} />

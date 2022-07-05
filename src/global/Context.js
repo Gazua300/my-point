@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage"
 import axios from "axios"
 import { createContext, useState } from "react"
 import { url } from "../constants/url"
@@ -10,10 +11,21 @@ export const GlobalState = (props)=>{
     const [token, setToken] = useState('')
     const [places, setPlaces] = useState([])
     const [placeId, setPlaceId] = useState('')
-    const [clientId, setClientId] = useState('')
     const [cardapio, setCardapio] = useState([])
     const [pedido, setPedido] = useState({})
+    
 
+    
+
+    const getToken = async(tk)=>{
+        try{
+            await AsyncStorage.setItem('token', tk)
+            const value = await AsyncStorage.getItem('token')
+            setToken(value)
+        }catch(e){
+            alert(e)
+        }
+    }
 
 
     const getAllUsers = ()=>{
@@ -25,23 +37,10 @@ export const GlobalState = (props)=>{
     }
 
 
-    const insertClient = ()=>{
-        const body = {
-            user: token
-        }
-        axios.post(`${url}/user/client/${placeId}`, body).then(res=>{
-            setClientId(res.data)
-            alert('Parabéns agora você é um cliente')
-        }).catch(e=>{
-            alert(e.response.data)
-        })
-    }
-
-
     
-    const states = { token, places, cardapio, pedido, placeId, clientId }
-    const setters = { setToken, setCardapio, setPedido, setPlaceId }
-    const requests = { getAllUsers, insertClient }
+    const states = { token, places, cardapio, pedido, placeId }
+    const setters = { setToken, setCardapio, setPedido, setPlaceId, getToken }
+    const requests = { getAllUsers }
 
     return(
         <Context.Provider value={{ states, setters, requests }}>

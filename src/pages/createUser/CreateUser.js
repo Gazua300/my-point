@@ -1,4 +1,4 @@
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import Context from "../../global/Context"
 import axios from 'axios'
 import { url } from "../../constants/url"
@@ -7,14 +7,15 @@ import { View, Text, TextInput, StyleSheet, TouchableOpacity, ImageBackground, S
 
 
 const CreateUser = (props)=>{
-    const { setters } = useContext(Context)
+    const { setters } = useContext(Context)    
     const [nome, setNome] = useState('')
     const [email, setEmail] = useState('')
     const [senha, setSenha] = useState('')
     const [confSenha, setConfSenha] = useState('')
 
 
-
+    
+    
     const signUp = ()=>{
         const body={
             nome,
@@ -25,7 +26,7 @@ const CreateUser = (props)=>{
             alert('As senhas não correspondem')
         }else{
             axios.post(`${url}/user`, body).then(res=>{
-                setters.setToken(res.data)
+                setters.getToken(res.data)
                 props.navigation.navigate('Home')
             }).catch(e=>{
                 alert(e.response.data)

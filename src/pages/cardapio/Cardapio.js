@@ -39,7 +39,7 @@ const Cardapio = (props)=>{
                                 </TouchableOpacity>
                             </View>
                         )
-                    }) : <Text style={styles.txtTemp}>Você ainda não inseriou nenhum produto no cardápio</Text>}
+                    }) : <Text style={styles.txtTemp}>O estabelecimento ainda não inseriu o cardápio</Text>}
                 </ScrollView>
             </View>
         </ImageBackground>
