@@ -13,6 +13,7 @@ export const GlobalState = (props)=>{
     const [placeId, setPlaceId] = useState('')
     const [cardapio, setCardapio] = useState([])
     const [pedido, setPedido] = useState({})
+    const [perfil, setPerfil] = useState({})
     
 
     
@@ -37,10 +38,21 @@ export const GlobalState = (props)=>{
     }
 
 
+    const getProfile = async()=>{
+        const id = await AsyncStorage.getItem('token')
+
+        axios.get(`${url}/user/${id}`).then(res=>{
+            setPerfil(res.data)
+        }).catch(e=>{
+            alert(e.response.data)
+        })
+    }
+
+
     
-    const states = { token, places, cardapio, pedido, placeId }
+    const states = { token, places, cardapio, pedido, placeId, perfil }
     const setters = { setToken, setCardapio, setPedido, setPlaceId, getToken }
-    const requests = { getAllUsers }
+    const requests = { getAllUsers, getProfile }
 
     return(
         <Context.Provider value={{ states, setters, requests }}>

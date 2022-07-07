@@ -7,7 +7,6 @@ import { url } from '../../constants/url'
 
 
 
-
 const Home = (props)=>{
     const { requests, setters, states } = useContext(Context)
     const places = states.places
@@ -41,17 +40,26 @@ const Home = (props)=>{
                         return(
                             <View key={place.id}
                                 style={styles.card}>
-                                <Text style={styles.txtStyle}>
-                                    {place.nome}{'\n'}
-                                    <Text style={{fontSize:15}}>{place.servico}</Text>
-                                </Text>
+                                <View>
+                                    <Text style={styles.txtStyle}>
+                                        {place.nome}                                    
+                                    </Text>
+                                    <Text style={{fontSize:18, color:'whitesmoke'}}>
+                                        {place.servico}{'\n'}
+                                        {place.mesas} lugares
+                                    </Text>
+                                </View>
                                 <TouchableOpacity style={styles.button}
                                     onPress={()=> cardapio(place.id)}>
-                                    <Text style={{color:'whitesmoke'}}>Cardapio</Text>
+                                    <Text style={{color:'whitesmoke', fontSize:18}}>
+                                        Cardapio
+                                    </Text>
                                 </TouchableOpacity>
                             </View>
                         )
-                    }) : <View style={{alignItems:'center'}}><View style={styles.loading}/></View>}
+                    }) : <Text style={styles.txtTemp}>
+                            Ainda não há estabelecimentos cadastrados
+                         </Text>}
                 </ScrollView>
             </View>
         </ImageBackground>
@@ -77,8 +85,8 @@ const styles = StyleSheet.create({
     },
     txtStyle: {
         fontSize: 25,
-        lineHeight: 30,
-        color: 'whitesmoke'
+        color: 'whitesmoke',
+        paddingBottom: 10
     },
     button: {
         backgroundColor: '#ae8625',
@@ -88,14 +96,11 @@ const styles = StyleSheet.create({
         marginTop: 15,
         alignItems: 'center'
     },
-    loading: {
-        borderWidth: 3,
-        borderTopWidth: 0,
-        borderRightWidth: 0,        
-        borderColor: '#ae8625',
-        width: 100,
-        height: 100,
-        borderRadius: 50,
+    txtTemp: {
+        fontSize: 20,
+        color: 'whitesmoke',
+        margin: 20,
+        textAlign: 'center'
     }
 })
 

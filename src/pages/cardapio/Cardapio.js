@@ -35,7 +35,9 @@ const Cardapio = (props)=>{
                                 <Text style={{fontSize:15, color:'whitesmoke'}}>{item.ingredientes}</Text>
                                 <TouchableOpacity style={styles.button}
                                     onPress={()=> fazerPedido(item.id)}>
-                                    <Text style={{color:'whitesmoke'}}>Pedir</Text>
+                                    <Text style={{color:'whitesmoke', fontSize:18}}>
+                                        Pedir
+                                    </Text>
                                 </TouchableOpacity>
                             </View>
                         )

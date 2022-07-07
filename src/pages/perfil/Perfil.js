@@ -1,36 +1,33 @@
-import { useContext, useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import Context from '../../global/Context'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import axios from 'axios'
 import { url } from '../../constants/url'
-import { View, Text, StyleSheet, ImageBackground, ScrollView, TouchableOpacity, Alert } from 'react-native'
+import Edit from 'react-native-vector-icons/Entypo'
+import { 
+    View,
+    Text,
+    StyleSheet,
+    ImageBackground,
+    ScrollView,
+    TouchableOpacity,
+    Alert
+} from 'react-native'
 
 
 
 const Perfil = (props)=>{
-    const [perfil, setPerfil] = useState({})
+    const { states, requests } = useContext(Context)
+    const perfil = states.perfil    
     const [pedidos, setPedidos] = useState([]) 
 
-    console.log(pedidos)
-        
+            
     useEffect(()=>{
         pegarPedidos()
-        getProfile()
+        requests.getProfile()
     }, [])
 
-
-        
-    const getProfile = async()=>{
-        const id = await AsyncStorage.getItem('token')
-
-        axios.get(`${url}/user/${id}`).then(res=>{
-            setPerfil(res.data)
-        }).catch(e=>{
-            alert(e.response.data)
-        })
-    }
-
-
+       
     const pegarPedidos = async()=>{
         const id = await AsyncStorage.getItem('token')
 
@@ -98,33 +95,43 @@ const Perfil = (props)=>{
             style={{flex:1}}
             source={require('../../img/mypoint-wallpaper.jpg')}>
             <View style={styles.container}>
-                <ScrollView>
-                    <View style={styles.profileContainer}>
+                <View style={styles.profileContainer}>
+                    <View style={styles.profileContent}>
                         <Text style={styles.txtStyle}>
                             {perfil.nome}{'\n'}
                             {perfil.email}
                         </Text>
-                        <TouchableOpacity style={styles.button}
-                            onPress={confirmarLogout}>
-                            <Text style={{color:'whitesmoke'}}>Deslogar</Text>
+                        <TouchableOpacity
+                            onPress={()=> props.navigation.navigate('Auth')}>
+                            <Edit name='edit' color='whitesmoke' size={25}/>
                         </TouchableOpacity>
                     </View>
-                    <Text style={styles.titleStyle}>Seus pedidos</Text>
-                    <View style={styles.line}/>
+                    <TouchableOpacity style={styles.button}
+                        onPress={confirmarLogout}>
+                        <Text style={{color:'whitesmoke', fontSize:18}}>
+                            Deslogar
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+                <Text style={styles.titleStyle}>Seus pedidos</Text>
+                <View style={styles.line}/>
+                <ScrollView>
                     {pedidos.length > 0 ? pedidos.map(pedido=>{
                         return(
                             <View key={pedido.id}
                                 style={styles.card}>
-                                <Text style={{fontSize:20, color:'whitesmoke'}}>
+                                <Text style={styles.placeStyle}>
                                     {pedido.estabelecimentoNome}
                                 </Text>
-                                <Text style={{fontSize:15, color:'whitesmoke', marginBottom:20}}>
-                                    {pedido.pedido}{'\n'}
-                                    Feito às {pedido.ordem}
+                                <Text style={styles.txt}>
+                                    {pedido.pedido}                                    
+                                </Text>
+                                <Text style={{color:'whitesmoke', fontSize:20}}>
+                                    Mesa {pedido.mesa}{'\n'}
                                 </Text>
                                 <TouchableOpacity style={styles.button}
                                     onPress={()=> confirmarRemover(pedido.id)}>
-                                    <Text style={{color:'whitesmoke'}}>Remover</Text>
+                                    <Text style={{color:'whitesmoke', fontSize:18}}>Remover</Text>
                                 </TouchableOpacity>
                             </View>
                         )
@@ -148,18 +155,33 @@ const styles = StyleSheet.create({
     },    
     profileContainer: {
         display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
+        flexDirection: 'column',
         justifyContent: 'space-between',
         margin: 20
+    },
+    profileContent: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between'
     },
     txtStyle: {
         fontSize: 20,
         color: 'whitesmoke',
+        marginBottom: 20
+    },
+    placeStyle: {
+        color: 'whitesmoke',
+        fontSize: 25,
+        textAlign: 'center'
+    },
+    txt: {
+        fontSize: 18,
+        color: 'whitesmoke',
+        marginBottom: 5
     },
     button: {
         backgroundColor: '#ae8625',
-        width: 80,
         height: 30,
         alignItems: 'center',
         justifyContent: 'center',
@@ -169,7 +191,7 @@ const styles = StyleSheet.create({
         color: 'whitesmoke',
         textAlign: 'center',
         fontSize: 20,
-        marginTop: 50
+        marginTop: 30
     },    
     line: {
         borderWidth: 1,
@@ -179,7 +201,6 @@ const styles = StyleSheet.create({
     card: {
         display: 'flex',
         flexDirection: 'column',
-        // alignItems: 'center',
         borderWidth: 2,
         borderColor: '#ad8625',
         borderRadius: 10,

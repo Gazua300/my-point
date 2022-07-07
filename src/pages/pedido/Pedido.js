@@ -2,22 +2,23 @@ import { useContext, useState } from "react"
 import Context from "../../global/Context"
 import axios from "axios"
 import { url } from "../../constants/url"
+import AsyncStorage from "@react-native-async-storage/async-storage"
 import { 
     View,
     Text,
     StyleSheet,
     TouchableOpacity,
     TextInput,
-    ScrollView,
-    ImageBackground
+    ImageBackground,
+    ScrollView
 } from 'react-native'
-import AsyncStorage from "@react-native-async-storage/async-storage"
 
 
 
 
 const Pedido = (props)=>{
     const [produto, setProduto] = useState('')
+    const [mesa, setMesa] = useState('')
     const { states } = useContext(Context)
     const pedido = states.pedido
 
@@ -28,6 +29,7 @@ const Pedido = (props)=>{
         const body = {
             pedido: produto,
             user: id,
+            mesa
         }
         axios.post(`${url}/request/${states.placeId}`, body).then(res=>{
             alert(res.data)
@@ -37,34 +39,49 @@ const Pedido = (props)=>{
     }
 
 
+    const limpar = ()=>{
+        setMesa('')
+        setProduto('')
+    }
+
+
+
     return(
         <ImageBackground
             style={{flex:1}}
             source={require('../../img/mypoint-wallpaper.jpg')}>
             <View style={styles.container}>
-                <Text style={styles.txtStyle}>
-                    <Text style={{fontWeight:'bold', lineHeight:50}}>Produto:</Text> {pedido.nome}{'\n'}
-                    <Text style={{fontSize:15}}>{pedido.ingredientes}</Text>
-                </Text>
-                <View style={styles.formContainer}>
-                    <TextInput style={styles.input}
-                        multiline={true}
-                        numberOfLines={3}
-                        onChangeText={setProduto}
-                        value={produto} 
-                        placeholder="Pode pedir outros produtos por aqui também."
-                        placeholderTextColor='whitesmoke'/>                
-                </View>
-                <View style={styles.btnContainer}>
-                    <TouchableOpacity style={styles.button}
-                        onPress={finalizarCompra}>
-                        <Text style={{color:'whitesmoke'}}>Realizar pedido</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.button}
-                        onPress={()=> setProduto('')}>
-                        <Text style={{color:'whitesmoke'}}>Limpar</Text>
-                    </TouchableOpacity>
-                </View>
+                <ScrollView>
+                    <Text style={styles.txtStyle}>
+                        <Text style={{fontWeight:'bold', lineHeight:50}}>Produto:</Text> {pedido.nome}{'\n'}
+                        <Text style={{fontSize:15}}>{pedido.ingredientes}</Text>
+                    </Text>
+                    <View style={styles.formContainer}>
+                        <TextInput style={styles.input}
+                            onChangeText={setMesa}
+                            value={mesa}
+                            keyboardType='numeric'
+                            placeholder="Mesa"
+                            placeholderTextColor='whitesmoke'/>
+                        <TextInput style={styles.textarea}
+                            multiline={true}
+                            numberOfLines={3}
+                            onChangeText={setProduto}
+                            value={produto} 
+                            placeholder="Pode pedir outros produtos por aqui também."
+                            placeholderTextColor='whitesmoke'/>                    
+                    </View>
+                    <View style={styles.btnContainer}>
+                        <TouchableOpacity style={styles.button}
+                            onPress={finalizarCompra}>
+                            <Text style={{color:'whitesmoke'}}>Realizar pedido</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.button}
+                            onPress={limpar}>
+                            <Text style={{color:'whitesmoke'}}>Limpar</Text>
+                        </TouchableOpacity>
+                    </View>
+                </ScrollView>
             </View>
         </ImageBackground>
     )
@@ -84,12 +101,22 @@ const styles = StyleSheet.create({
     },
     formContainer: {
         display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
+        flexDirection: 'column',
         justifyContent: 'space-between',
-        marginHorizontal: 20
+        marginHorizontal: 20,
     },
     input: {
+        textAlign: 'center',
+        fontSize: 20,
+        color: 'whitesmoke',
+        width: 80,
+        padding: 10,
+        borderWidth: 2,
+        borderColor: '#ae8625',
+        borderRadius: 10,
+        marginBottom: 10 
+    },
+    textarea: {
         width: 370,
         height: 100,
         borderWidth: 2,
