@@ -34,7 +34,7 @@ const Perfil = (props)=>{
         axios.get(`${url}/requests/${id}`).then(res=>{
             setPedidos(res.data)
         }).catch(e=>{
-            alert(e.response.data)
+            console.log(e.response.data)
         })
     }
 
@@ -67,6 +67,7 @@ const Perfil = (props)=>{
 
     const remover = (id)=>{
         axios.delete(`${url}/request/${id}`).then(res=>{
+            console.log(res.data)
             pegarPedidos()
         }).catch(e=>{
             alert(e.response.data)
@@ -123,12 +124,22 @@ const Perfil = (props)=>{
                                 <Text style={styles.placeStyle}>
                                     {pedido.estabelecimentoNome}
                                 </Text>
-                                <Text style={styles.txt}>
-                                    {pedido.pedido}                                    
-                                </Text>
-                                <Text style={{color:'whitesmoke', fontSize:20}}>
-                                    Mesa {pedido.mesa}{'\n'}
-                                </Text>
+                                <View style={styles.produto}>                                        
+                                    <Text style={styles.txtStyle}>Produto:</Text>
+                                    <Text style={styles.txtStyle}>{pedido.pedido}</Text>
+                                </View>
+                                <View style={styles.produto}>                                        
+                                    <Text style={styles.txtStyle}>Quantidade:</Text>
+                                    <Text style={styles.txtStyle}>{pedido.quantidade}</Text>
+                                </View>
+                                <View style={styles.produto}>                                        
+                                    <Text style={styles.txtStyle}>Preço:</Text>
+                                    <Text style={styles.txtStyle}>R$ {pedido.preco}</Text>
+                                </View>
+                                <View style={styles.produto}>                                        
+                                    <Text style={styles.txtStyle}>Total:</Text>
+                                    <Text style={styles.txtStyle}>R$ {pedido.total}</Text>
+                                </View>
                                 <TouchableOpacity style={styles.button}
                                     onPress={()=> confirmarRemover(pedido.id)}>
                                     <Text style={{color:'whitesmoke', fontSize:18}}>Remover</Text>
@@ -163,22 +174,24 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
+        justifyContent: 'space-between',
+        marginBottom: 20
+    },
+    produto: {
+        display: 'flex',
+        flexDirection: 'row',
         justifyContent: 'space-between'
     },
     txtStyle: {
         fontSize: 20,
         color: 'whitesmoke',
-        marginBottom: 20
+        marginHorizontal: 10,
+        marginVertical: 3
     },
     placeStyle: {
         color: 'whitesmoke',
         fontSize: 25,
         textAlign: 'center'
-    },
-    txt: {
-        fontSize: 18,
-        color: 'whitesmoke',
-        marginBottom: 5
     },
     button: {
         backgroundColor: '#ae8625',
@@ -186,6 +199,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 10,
+        marginTop: 10
     },
     titleStyle: {
         color: 'whitesmoke',
@@ -205,7 +219,7 @@ const styles = StyleSheet.create({
         borderColor: '#ad8625',
         borderRadius: 10,
         margin: 15,
-        padding: 15
+        padding: 15,
     },
 })
 

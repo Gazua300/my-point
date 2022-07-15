@@ -16,9 +16,11 @@ import { View,
 
 
 const EditPerfil = (props)=>{
-    const { requests } = useContext(Context)
-    const [nome, setNome] = useState('')
-    const [email, setEmail] = useState('')
+    const { states, requests } = useContext(Context)
+    const perfil = states.perfil
+    const placeholderBackground = 'rgba(255, 255, 255, 0.4)'
+    const [nome, setNome] = useState(perfil.nome)
+    const [email, setEmail] = useState(perfil.email)
 
 
 
@@ -108,12 +110,12 @@ const EditPerfil = (props)=>{
                         onChangeText={setNome}
                         value={nome}
                         placeholder="Nome"
-                        placeholderTextColor='whitesmoke'/>
+                        placeholderTextColor={placeholderBackground}/>
                     <TextInput style={styles.input}
                         onChangeText={setEmail}
                         value={email}
                         placeholder="nome@email.com"
-                        placeholderTextColor='whitesmoke'/>                    
+                        placeholderTextColor={placeholderBackground}/>                    
                     <View style={styles.btnContainer}>
                         <TouchableOpacity style={styles.button}
                             onPress={confirmar}>
@@ -154,7 +156,7 @@ const styles = StyleSheet.create({
         paddingLeft: 15,
         fontSize: 20,
         margin: 13,
-        width: 350,
+        width: '92%',
         height: 50,
         color: 'whitesmoke'
     },

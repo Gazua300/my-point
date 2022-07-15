@@ -10,6 +10,7 @@ import { url } from '../../constants/url'
 const Home = (props)=>{
     const { requests, setters, states } = useContext(Context)
     const places = states.places
+    
 
 
 
@@ -41,12 +42,17 @@ const Home = (props)=>{
                             <View key={place.id}
                                 style={styles.card}>
                                 <View>
-                                    <Text style={styles.txtStyle}>
+                                    <Text style={styles.title}>
                                         {place.nome}                                    
                                     </Text>
-                                    <Text style={{fontSize:18, color:'whitesmoke'}}>
+                                    <Text style={styles.txtStyle}>
                                         {place.servico}{'\n'}
-                                        {place.mesas} lugares
+                                        {place.mesas} lugares{'\n'}
+                                        {place.endereco}{'\n'}
+                                        ({String(place.contato).substring(0,2)}){' '}
+                                        {String(place.contato).substring(2,6)}-
+                                        {String(place.contato).substring(6,10)}
+
                                     </Text>
                                 </View>
                                 <TouchableOpacity style={styles.button}
@@ -73,27 +79,28 @@ const styles = StyleSheet.create({
         paddingTop: 50
     },
     card: {
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
         borderWidth: 2,
         borderColor: '#ad8625',
         borderRadius: 10,
         margin: 15,
-        padding: 15
+        padding: 10
     },
-    txtStyle: {
+    title: {
         fontSize: 25,
         color: 'whitesmoke',
-        paddingBottom: 10
+        textAlign: 'center',
+        marginBottom: 20
+    },
+    txtStyle: {
+        fontSize: 18,
+        color: 'whitesmoke',
+        lineHeight: 25,
+        marginBottom: 20
     },
     button: {
         backgroundColor: '#ae8625',
-        width: 100,
         padding: 5,
         borderRadius: 10,
-        marginTop: 15,
         alignItems: 'center'
     },
     txtTemp: {

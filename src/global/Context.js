@@ -13,8 +13,7 @@ export const GlobalState = (props)=>{
     const [placeId, setPlaceId] = useState('')
     const [cardapio, setCardapio] = useState([])
     const [pedido, setPedido] = useState({})
-    const [perfil, setPerfil] = useState({})
-    
+    const [perfil, setPerfil] = useState({})   
 
     
 
@@ -44,7 +43,7 @@ export const GlobalState = (props)=>{
         axios.get(`${url}/user/${id}`).then(res=>{
             setPerfil(res.data)
         }).catch(e=>{
-            alert(e.response.data)
+            console.log(e.response.data)
         })
     }
 

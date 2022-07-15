@@ -1,4 +1,6 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
+import Context from '../../global/Context'
+import Eye from 'react-native-vector-icons/Entypo'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import axios from 'axios'
 import { url } from '../../constants/url'
@@ -15,7 +17,22 @@ import {
 
 
 const Auth = (props)=>{
+    const { states, setters } = useContext(Context)
     const [senha, setSenha] = useState('')
+    const [visivel, setVisivel] = useState(true)
+    const [icone, setIcone] = useState('eye-with-line')
+
+
+
+    const visibilidade = ()=>{
+        if(icone === 'eye-with-line'){
+            setVisivel(false)
+            setIcone('eye')
+        }else if(icone === 'eye'){
+            setVisivel(true)
+            setIcone('eye-with-line')
+        }
+    }
 
 
     const auth = async()=>{
@@ -31,6 +48,8 @@ const Auth = (props)=>{
     }
 
 
+    
+
     return(
         <ImageBackground
             style={{flex:1}}
@@ -41,9 +60,13 @@ const Auth = (props)=>{
                     <TextInput style={styles.input}
                         onChangeText={setSenha}
                         value={senha}
-                        secureTextEntry={true}
+                        secureTextEntry={visivel}
                         placeholder='Sua senha'
-                        placeholderTextColor='whitesmoke'/>
+                        placeholderTextColor='rgba(255, 255, 255, 0.4)'/>
+                    <TouchableOpacity style={styles.eye}
+                        onPress={visibilidade}>
+                        <Eye name={icone} size={25} color='whitesmoke'/>
+                    </TouchableOpacity>
                     <TouchableOpacity style={styles.button}
                         onPress={auth}>
                         <Text style={{color:'whitesmoke', fontSize:18}}>Verificar</Text>
@@ -58,7 +81,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: 'rgba(0, 0, 0, 0.8)',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     txtStyle: {
         color: 'whitesmoke',
@@ -72,10 +95,15 @@ const styles = StyleSheet.create({
         borderColor: '#ae8625',
         paddingLeft: 15,
         fontSize: 20,
-        width: 350,
+        width: 320,
         height: 50,
         color: 'whitesmoke',
         marginTop: 20
+    },
+    eye: {
+        position: 'absolute',
+        right: '6%',
+        top: '53%'
     },
     button: {
         backgroundColor: '#ae8625',

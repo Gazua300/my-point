@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react"
 import Context from "../../global/Context"
+import Eye from 'react-native-vector-icons/Entypo'
 import axios from 'axios'
 import { url } from "../../constants/url"
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, ImageBackground, ScrollView } from "react-native"
@@ -7,12 +8,38 @@ import { View, Text, TextInput, StyleSheet, TouchableOpacity, ImageBackground, S
 
 
 const CreateUser = (props)=>{
-    const { setters } = useContext(Context)    
+    const { states, setters } = useContext(Context)
+    const placeholderBakcground = 'rgba(255, 255, 255, 0.4)'       
     const [nome, setNome] = useState('')
     const [email, setEmail] = useState('')
     const [senha, setSenha] = useState('')
     const [confSenha, setConfSenha] = useState('')
+    const [icone, setIcone] = useState('eye-with-line')
+    const [icone2, setIcone2] = useState('eye-with-line')
+    const [visivel, setVisivel] = useState(true)
+    const [visivel2, setVisivel2] = useState(true)
 
+
+    
+    const visibilidade = ()=>{
+        if(icone === 'eye-with-line'){
+            setVisivel(false)
+            setIcone('eye')
+        }else if(icone === 'eye'){
+            setVisivel(true)
+            setIcone('eye-with-line')
+        }
+    }
+
+    const visibilidade2 = ()=>{
+        if(icone2 === 'eye-with-line'){
+            setVisivel2(false)
+            setIcone2('eye')
+        }else if(icone2 === 'eye'){
+            setVisivel2(true)
+            setIcone2('eye-with-line')
+        }
+    }
 
     
     
@@ -54,26 +81,34 @@ const CreateUser = (props)=>{
                         onChangeText={setNome}
                         value={nome}
                         placeholder="Nome"
-                        placeholderTextColor='whitesmoke'/>
+                        placeholderTextColor={placeholderBakcground}/>
                     <TextInput style={styles.input}
                         onChangeText={setEmail}
                         value={email}
                         placeholder="nome@email.com"
-                        placeholderTextColor='whitesmoke'/>
+                        placeholderTextColor={placeholderBakcground}/>
 
                     <TextInput style={styles.input}
                         onChangeText={setSenha}
                         value={senha}
-                        secureTextEntry={true}
+                        secureTextEntry={visivel}
                         placeholder='Sua senha'
-                        placeholderTextColor='whitesmoke'/>
+                        placeholderTextColor={placeholderBakcground}/>
+                    <TouchableOpacity style={styles.eye}
+                        onPress={visibilidade}>
+                        <Eye name={icone} size={25} color='whitesmoke'/>
+                    </TouchableOpacity>
                     
                     <TextInput style={styles.input}
                         onChangeText={setConfSenha}
                         value={confSenha}
-                        secureTextEntry={true}
+                        secureTextEntry={visivel2}
                         placeholder='Confirme sua senha'
-                        placeholderTextColor='whitesmoke'/>
+                        placeholderTextColor={placeholderBakcground}/>
+                    <TouchableOpacity style={styles.eye2}
+                        onPress={visibilidade2}>
+                        <Eye name={icone2} size={25} color='whitesmoke'/>
+                    </TouchableOpacity>
                     
                     <View style={styles.btnContainer}>
                         <TouchableOpacity style={styles.button}
@@ -106,9 +141,19 @@ const styles = StyleSheet.create({
         paddingLeft: 15,
         fontSize: 20,
         margin: 13,
-        width: 350,
+        width: '95%',
         height: 50,
         color: 'whitesmoke'
+    },
+    eye: {
+        position: 'absolute',
+        right: '7%',
+        top: '47%'
+    },
+    eye2: {
+        position: 'absolute',
+        right: '7.%',
+        top: '68%'
     },
     btnContainer: {
         display: 'flex',

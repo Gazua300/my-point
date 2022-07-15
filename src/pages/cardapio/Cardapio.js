@@ -1,13 +1,21 @@
-import { useContext, useState } from "react"
+import { useContext } from "react"
 import Context from "../../global/Context"
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView, ImageBackground } from 'react-native'
+import {
+    View,
+    Text,
+    TouchableOpacity,
+    StyleSheet,
+    ScrollView,
+    ImageBackground,
+    RefreshControl
+} from 'react-native'
 import axios from "axios"
 import { url } from "../../constants/url"
 
 
 
 const Cardapio = (props)=>{
-    const { states, setters, requests } = useContext(Context)
+    const { states, setters } = useContext(Context)
     const cardapio = states.cardapio
 
 
@@ -31,8 +39,10 @@ const Cardapio = (props)=>{
                         return(
                             <View key={item.id}
                                 style={styles.card}>
-                                <Text style={styles.txtStyle}>{item.nome}</Text>
-                                <Text style={{fontSize:15, color:'whitesmoke'}}>{item.ingredientes}</Text>
+                                <View style={styles.produto}>
+                                    <Text style={styles.txtStyle}>{item.nome}</Text>
+                                    <Text style={styles.txtStyle}>R$ {item.preco}</Text>                                    
+                                </View>
                                 <TouchableOpacity style={styles.button}
                                     onPress={()=> fazerPedido(item.id)}>
                                     <Text style={{color:'whitesmoke', fontSize:18}}>
@@ -52,21 +62,22 @@ const Cardapio = (props)=>{
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'rgba(0, 0, 0, 0.8)',
-        paddingTop: 50
+        backgroundColor: 'rgba(0, 0, 0, 0.8)'
     },
     card: {
-        display: 'flex',
-        alignItems: 'center',
         borderWidth: 2,
         borderColor: '#ae8625',
         margin: 15,
-        padding: 10,
+        padding: 15,
         borderRadius: 10
+    },
+    produto: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between'
     },
     txtStyle: {
         fontSize: 23,
-        lineHeight: 40,
         color: 'whitesmoke'
     },
     txtTemp: {
@@ -78,12 +89,10 @@ const styles = StyleSheet.create({
     },
     button: {
         backgroundColor: '#ae8625',
-        width: 150,
         padding: 5,
         borderRadius: 10,
         marginTop: 15,
-        alignItems: 'center',
-        margin: 10
+        alignItems: 'center'
     }
 })
 
